@@ -83,3 +83,12 @@ jobs:
                 echo '```' >> $GITHUB_OUTPUT
                 echo "</details>" >> $GITHUB_OUTPUT
                 echo "${delimiter}" >> $GITHUB_OUTPUT
+
+            - name: Publish Terraform Plan to Task Summary
+              env:
+                SUMMARY: ${{ steps.tf-plan-string.outputs.summary }}
+              run: |
+                echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
+
+            - name: Terraform Apply
+              run: terraform apply -auto-approve tfplan
